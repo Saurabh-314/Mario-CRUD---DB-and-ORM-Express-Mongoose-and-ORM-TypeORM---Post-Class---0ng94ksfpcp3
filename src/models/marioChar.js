@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
   },
 });
 
-const marioModel = mongoose.model('User', schema);
+const marioModel = mongoose.model('mariochar', schema);
 
 module.exports = marioModel;
 // module.exports = mongoose.model('User', schema);;
