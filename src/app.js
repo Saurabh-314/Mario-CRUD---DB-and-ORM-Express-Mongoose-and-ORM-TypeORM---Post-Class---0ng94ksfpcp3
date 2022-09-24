@@ -2,6 +2,18 @@ const express = require('express')
 const app = express()
 const bodyParser = require("body-parser");
 const marioModel = require('./models/marioChar');
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/testaroo', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+mongoose.connection.once('open', () => {
+  console.log('connection established')
+}).on('connectionError', (err) => {
+  console.log(err);
+})
 
 // Middlewares
 app.use(express.urlencoded());
@@ -14,14 +26,14 @@ app.use(bodyParser.json())
 
 app.get('/mario', async (req, res) => {
   const result = await marioModel.find();
-  res.json(result);
+  res.status(200).json(result);
 })
 
 app.get('/mario/:id', async (req, res) => {
   const paramId = req.params.id;
   try {
     const result = await marioModel.findOne({ "_id": paramId });
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     res.status(400).json({ message: error.message })
   }
